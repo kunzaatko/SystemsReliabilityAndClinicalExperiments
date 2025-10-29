@@ -1,0 +1,341 @@
+\section{Introduction}%
+\label{sec:introduction}
+
+We have a sequence of data \((X_i)_{i=1}^{137}\) from a clinical experiment of a veteran disease trial with the columns \verb|treat|, \verb|cell|,
+\verb|survt|, \verb|cens|, \verb|KAR|, \verb|didur|, \verb|age| and \verb|prith|.
+
+\begin{itemize}
+    \item[\texttt{treat}] whether the patient was treated (\(1\)) or received placebo (\(2\))
+    \item[\texttt{cell}] cell type of the patient (squamous (\(1\)), small (\(2\)), adeno (\(3\)), large (\(4\)))
+    \item[\texttt{survt}] survival time (days)
+    \item[\texttt{cens}] status (censored (\(1\)), died (\(0\)))
+    \item[\texttt{KAR}]  performance status - Karnofsky score (worst (\(0\)),\dots,best (\(100\)))
+    \item[\texttt{didur}] disease duration from diagnosis to treatment (months)
+    \item[\texttt{age}]  age of the patient (years)
+    \item[\texttt{prith}] prior therapy received by the patient (none (\(0\)), some (\(10\)))
+\end{itemize}
+
+I was randomly assigned the number \emph{\Romannumeral{26}}, which corresponds to the selection
+
+\begin{codesample}
+disease duration didur<=9 (months) versus didur>9 (months) při treat=2
+\end{codesample}
+
+In agreement with this, I will denote \((A_i)_{i=1}^{48}\) the conditioned data \((X \in (X_i) \mid X_{\verb|didur|} \le 9, \,
+X_{\verb|treat|} = 2)_i\) and \((B_i)_{i=1}^{20}\) the conditioned data \((X \in (X_i) \mid X_{\verb|didur|} > 9, \,
+X_{\verb|treat|} = 2)_i\). We will also denote \((A^{(1)}_i) = (A_i \mid \delta(i) = 1)\) and similarly 
+\((B^{(1)}_i) = (B_i \mid \delta(i) = 1)\) and analogously \((A^{(0)}_i)\) and 
+\((B^{(0)}_i)\) for the censored data.
+
+
+First of all, let us see some elementary statistics of \(A\) and \(B\).
+
+\begin{table}[h]
+    \centering
+    \input{tables/stats.tex}
+    \caption{Elementary statistics of the data groups. \(\mathop{E} \delta \) denotes the proportion of
+    non-censored observations in the set.}
+    \label{tab:elementary_stats}
+\end{table}
+
+% TODO: Add censored data histogram formula and reimplement the histogram to use it <23-09-23> 
+\begin{figure}
+    \centering
+    \incfig{histograms}
+    \caption{Histograms of the censored lifetimes.}
+    \label{fig:histograms}
+\end{figure}
+
+\section{Parametric Estimates}%
+\label{sec:parametric_estimates}
+
+Based on the histograms in \Cref{fig:histograms}, we will first attempt to fit an exponential distribution to the lifetime data.
+
+\begin{theorem}[Likelihood functions for the \ac{RC} model]
+    \label{thm:likelihood}
+    Let \(F_T=F_T(t,\bs{\theta}_1)\) and \(F_C = F_C(c, \bs{\theta}_2)\) be distributions of \(T\) and \(C\)
+    respectively, such that \(F_T\) and \(F_C\) do not contain the same parameters (even in a relationship sense). Let
+    us have \((W_j, \delta_j)_1^n\) \ac{iid} \(F_{W,\delta}\) replications. Then
+    \[
+        L(\bs{\theta}_1, \bs{\theta}_2) = f_{\bs{W}, \bs{\delta}}(\bs{w}, \bs{\delta}; \bs{\theta}_1, \bs{\theta}_2) =
+        L_1(\bs{\theta}_1) \cdot L_2(\bs{\theta}_2),
+    \] where \[
+        \begin{aligned}
+            L_1(\bs{\theta}_1) &= \prod_{j\in D} f_T(w_j) \prod_{j \in V} (1 - F_T(w_j)) \\
+            L_2(\bs{\theta}_2) &= \prod_{j\in D} (1-F_C(w_j)) \prod_{j \in V} f_C(w_j),
+        \end{aligned}
+    \] with the notation \(D = \left\{ j \mid \delta_j = 1 \right\}\) and \(V = \left\{ j\mid \delta_j = 0 \right\}\).
+\end{theorem}
+
+Using \Cref{thm:likelihood}, we can make a \ac{MLE} of the distribution \(F_T\) without assuming a distribution
+of \(C\). Specifically for a \ac{MLE} of an exponentially distributed \(F_T\), we have \[
+    L_1(\lambda) = \prod_{j\in D} f_T(w_j) \cdot \prod_{j \in V} R_T(w_j) = \prod_{j\in D} \lambda e^{-\lambda w_j}
+    \cdot \prod_{j \in V} e^{-\lambda w_j} = \lambda^{|D|} \cdot \exp(-\lambda \sum_{j = 1}^n w_j),
+\] and the \ac{LEs} and \ac{MLE} estimate follows to be
+\begin{gather*}
+    \ell_1(\lambda) = \ln L_1(\lambda) = |D| \cdot \ln \lambda - \lambda \sum_{j = 1}^n w_j \\
+    \partial_\lambda\ell_1(\lambda) = \frac{|D|}{\lambda} - \sum_{j = 1}^n w_j = 0 \implies \hat{\lambda}_{\text{ML}}
+        = \frac{|D|}{\sum_{j = 1}^n w_j}.
+\end{gather*}
+
+For our data the \ac{MLE} equate to the results in \Cref{tab:MLE_exponential}
+
+\begin{table}[h]
+    \centering
+    \input{tables/MLE_exponential.tex}
+    \caption{\ac{MLE} estimates for the exponential distribution of \(F_T\).}
+    \label{tab:MLE_exponential}
+\end{table}
+
+Checking the fit via a histogram while keeping the information about the data censoring is done via the \ac{KM}
+estimate of the \ac{CDF}. The \ac{KM} model for censored data gives us the estimate for the survival function as
+\[
+    \widehat{S}(t)=\prod_{i:t_{i}\leq t}\left(1-{\frac{d_{i}}{n_{i}}}\right).
+\] 
+
+Therefore an estimate of the \ac{CDF} that takes the censors into account is 
+\[
+    \widehat{F}(t)=1-\widehat{S}(t).
+\]
+
+We can then create a Q-Q plot that accounts for the censors simply by evaluating the quantile at the
+estimated quantile from the \ac{KM} model for each time and plotting against the true observed time. This equates to the
+plot being \[
+    \left\{ F^{-1}_T(\widehat{F}(t)), t  \right\} \qcomma  \forall t \in (t_i),
+\]  where \(F_T\) is the distribution of that we want to check.
+
+A P-P plot accounting for the censors is analogously \[
+    \left\{ F_T(t), \widehat{F}(t) \right\} \qcomma  \forall t \in (t_i).
+\] 
+
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.4\textwidth}
+        \incfig{histogram_vs_parametric_A}
+        \subcaption{Comparison of histogram and \ac{MLE} estimates.}
+    \end{subfigure} 
+    \begin{subfigure}{0.4\textwidth}
+        \incfig{QQ_exponential_A}
+        \subcaption{Q-Q plot of the fitted exponential \ac{MLE}}
+    \end{subfigure} 
+    \begin{subfigure}{0.4\textwidth}
+        \incfig{PP_exponential_A}
+        \subcaption{P-P plot of the fitted exponential \ac{MLE} against the \ac{KM} probability estimate.}
+    \end{subfigure}
+    \caption{\ac{MLE} fit of an exponential distribution of group \(A\) justification plots.}
+    \label{fig:histogram_vs_parametric_and_QQ_A}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.4\textwidth}
+        \incfig{histogram_vs_parametric_B}
+        \subcaption{Comparison of histogram and \ac{MLE} estimates.}
+    \end{subfigure} 
+    \begin{subfigure}{0.4\textwidth}
+        \incfig{QQ_exponential_B}
+        \subcaption{Q-Q plot of the fitted exponential \ac{MLE}}
+    \end{subfigure} 
+    \begin{subfigure}{0.4\textwidth}
+        \incfig{PP_exponential_B}
+        \subcaption{P-P plot of the fitted exponential \ac{MLE} against the \ac{KM} probability estimate.}
+    \end{subfigure}
+    \caption{\ac{MLE} fit of an exponential distribution of group \(B\) justification plots.}
+    \label{fig:histogram_vs_parametric_and_QQ_B}
+\end{figure}
+
+From \Cref{fig:histogram_vs_parametric_and_QQ_A} and \Cref{fig:histogram_vs_parametric_and_QQ_B}, we see that
+the exponential distribution is a not an ideal fit for neither of groups \(A\) and \(B\) since they seem to have heavier
+tails than the fitted distribution, but is acceptable for a simple model.
+
+Lets also try the Weibull distribution.
+
+Similarly to the exponential distribution, we determine for the Weibull distribution
+\begin{gather*}
+    R_T(t) = \exp{-(\lambda t)^\alpha} = \left\{ \lambda^\alpha \eqqcolon \lambda' \right\} = \exp{-\lambda't^\alpha} \\
+    f_T(t) = \lambda' \alpha t^{(\alpha - 1)} \exp{-\lambda't^\alpha}; \quad \lambda' > 0,\, \alpha > 0,\, t > 0
+\end{gather*} the log-likelihood as
+\[
+    \ell_1(\alpha, \lambda') = |D| \ln \lambda' + |D| \ln \alpha + (\alpha - 1) \ln\prod_{j \in D} w_j - \lambda'
+    \sum_{j = 1}^n w_j^\alpha.
+\] % and \ac{LEs} and the \ac{MLE} to be
+% \begin{gather}
+%     \partial_{\lambda'} \ell_1 = |D| / \lambda' - \sum_{j = 1}^n w_j^\alpha = 0 \\
+%     \partial_\alpha \ell_1 = |D|/\alpha + \sum_{n = 0}^{N} 
+% \end{gather}
+
+\newpage
+\pagebreak
+\warningbox{The fits of the Weibull distributions seem to be wrong. This is the code that is used to generate them.
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{Weibull_loglike.png}
+    \end{center}
+}
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.4\textwidth}
+        \incfig{histogram_vs_parametric_weib_A}
+        \subcaption{Comparison of histogram and \ac{MLE} estimates.}
+    \end{subfigure} 
+    \begin{subfigure}{0.4\textwidth}
+        \incfig{QQ_weib_A}
+        \subcaption{Q-Q plot of the fitted Weibull \ac{MLE}}
+    \end{subfigure} 
+    \begin{subfigure}{0.4\textwidth}
+        \incfig{PP_weibull_A}
+        \subcaption{P-P plot of the fitted Weibull \ac{MLE} against the \ac{KM} probability estimate.}
+    \end{subfigure}
+    \caption{\ac{MLE} fit of an Weibull distribution and a QQ plot of group \(A\).}
+    \label{fig:histogram_vs_parametric_and_QQ_weib_A}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}{0.4\textwidth}
+        \incfig{histogram_vs_parametric_weib_B}
+        \subcaption{Comparison of histogram and \ac{MLE} estimates.}
+    \end{subfigure} 
+    \begin{subfigure}{0.4\textwidth}
+        \incfig{QQ_weib_B}
+        \subcaption{Q-Q plot of the fitted Weibull \ac{MLE}}
+    \end{subfigure} 
+    \begin{subfigure}{0.4\textwidth}
+        \incfig{PP_weibull_B}
+        \subcaption{P-P plot of the fitted Weibull \ac{MLE} against the \ac{KM} probability estimate.}
+    \end{subfigure}
+    \caption{\ac{MLE} fit of an Weibull distribution of group \(B\) justification plots.}
+    \label{fig:histogram_vs_parametric_and_QQ_weib_B}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \incfig[1.1\textwidth]{log_likelihood_surf_A}
+        \subcaption{Log-likelihood surface in the neighbourhood of the \ac{MLE} estimate of A}
+        \label{fig:log_likelihood_surf_A}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \incfig[1.1\textwidth]{log_likelihood_surf_B}
+        \subcaption{Log-likelihood surface in the neighbourhood of the \ac{MLE} estimate of B}
+        \label{fig:log_likelihood_surf_B}
+    \end{subfigure}
+\end{figure}
+
+As my parametric fit, I will use the \ac{MLE} of the exponential for lack of a better fit with Weibull.
+
+\section{\ac{KM} Plots}%
+\label{sec:KM_plot}
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \incfig{KM_A}
+        \subcaption{\ac{KM} plot of group A against the \(R_\text{MLE}\) of the exponential distribution.}
+        \label{fig:KM_A}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \incfig{KM_B}
+        \subcaption{\ac{KM} plot of group B against the \(R_\text{MLE}\) of the exponential distribution.}
+        \label{fig:KM_B}
+    \end{subfigure}
+\end{figure}
+
+\begin{figure}[h]
+    \incfig{KM_AB}
+    \subcaption{\ac{KM} plot of group A and group B.}
+    \label{fig:KM_AB}
+\end{figure}
+
+
+\section{\ac{NA} Plots}%
+\label{sec:NA_plot}
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \incfig{NA_A}
+        \subcaption{\ac{NA} plot of group A against the \(\Lambda_\text{MLE}\) of the exponential distribution.}
+        \label{fig:NA_A}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \incfig{NA_B}
+        \subcaption{\ac{NA} plot of group B against the \(\Lambda_\text{MLE}\) of the exponential distribution.}
+        \label{fig:NA_B}
+    \end{subfigure}
+\end{figure}
+
+Based on the \ac{NA} plots in \cref{fig:NA_A} and \cref{fig:NA_B}, both \(A\) and \(B\) have a \ac{DFR}.
+
+\section{Comparison of \(A\) and \(B\)}%
+\label{sec:comparison}
+
+As we are comparing the exponentially distributed model of lifetimes, we already know how the comparison will look for
+\(R_A\) and \(R_B\) linear \(\Lambda_A\) and \(\Lambda_B\) and the constant \(\lambda_A\) and \(\lambda_B\), but for completeness, here are the comparison graphs.
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \incfig{comp_R}
+        \subcaption{Comparison of \(R_A\) and \(R_B\).}
+        \label{fig:comp_R}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \incfig{comp_λ}
+        \subcaption{Comparison of \(\lambda_A\) and \(\lambda_B\).}
+        \label{fig:comp_λ}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.45\textwidth}
+        \incfig{comp_Λ}
+        \subcaption{Comparison of \(\Lambda_A\) and \(\Lambda_B\).}
+        \label{fig:comp_Λ}
+    \end{subfigure}
+    \caption{Comparisons of descriptive model functions.}
+\end{figure}
+
+The \ac{MTTF} of an exponential hazard rate is \(1/\lambda\) and the median lifetime \(t_\text{med}\) is
+given by \begin{align*}
+    Pr(T > t_\text{med}) &= 1/2 \\
+    e^{-\lambda t_\text{med}} &= 1/2 \\
+    t_\text{med} &= \ln{2}/\lambda.
+\end{align*}
+
+\begin{table}[h]
+    \centering
+    \input{tables/comparison.tex}
+    \caption{Comparison of \ac{MTTF} and the median lifetime for groups \(A\) and \(B\).}
+    \label{tab:comparison}
+\end{table}
+
+\section{Log-log \(R\) Plots}%
+\label{sec:loglogR_plot}
+
+\begin{figure}[h]
+    \centering
+    \incfig{log_log_R}
+    \caption{Log-log \(R\) plots of \(R_A\) and \(R_B\).}
+    \label{fig:log_log_R}
+\end{figure}
+
+As we can see from the \Cref{fig:log_log_R}, there are several crossings of the two step functions and therefore the
+proportional hazard model does not fit the groups \(A\) and \(B\).
+
+\section{Summary}%
+\label{sec:summary}
+The main insight is given in the \Cref{fig:KM_AB}, where we can see that the survival function estimate is lower for
+group \(A\) in the interval \((100, 400)\) days. I would say that the right tail of both groups does not include enough
+observations for the estimate have a big weight in the conclusions. This indicates that if a patient had more than
+9 months from the diagnosis before getting treated, his survival chances are worse. That is a good indication of the
+  treatment being effective.
+
+What is very interesting to me from the data is that the patients already survived 9 months as indicated by the disease
+duration value but after getting the treatment, there are so many observations of death in the interval from 0 to 100
+days. This is quite puzzling and I would deduce intuitively from this information that the treatment is causing the
+death. Some more information about how the data was collected would be useful for putting this strange and pessimistic
+theory into light of day.

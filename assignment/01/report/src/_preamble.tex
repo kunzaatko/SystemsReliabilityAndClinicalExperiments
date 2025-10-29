@@ -1,0 +1,82 @@
+\documentclass{article}
+\title{System Reliability Assignment 01}
+
+\usepackage{hyperref}
+
+\author{
+    \href{mailto:kunzmart@fjfi.cvut.cz}{Martin Kunz}
+}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage[margin=1.5cm, includehead, nomarginpar, headheight=10mm]{geometry}
+\usepackage{datetime}
+\usepackage{enumitem}
+
+\usepackage{amsmath}
+
+\usepackage{mdframed}
+
+\usepackage{amsthm}
+\newtheorem{note}{Note}
+\newtheorem*{note*}{Note}
+
+\usepackage{amssymb}
+\usepackage{mathtools}
+
+\usepackage[dvipsnames]{xcolor}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes, arrows, calc, fit}
+
+
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\graphicspath{ {./figures/} }
+\usepackage{indentfirst}
+\usepackage{float}
+
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date
+\makeatother
+
+\usepackage{acro}
+
+\DeclareAcronym{id}{
+  short=i.d.,
+  long=independently distributed,
+}
+
+\DeclareAcronym{iid}{
+  short=i.i.d.,
+  long=identically independently distributed,
+}
+
+\DeclareAcronym{MTTF}{
+    short=MTTF,
+    long=mean time to failure,
+}
+
+% figure support
+\usepackage{import}
+\usepackage{xifthen}
+% \pdfminorversion=7
+\usepackage{pdfpages}
+\usepackage{transparent}
+
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{\columnwidth}
+    \import{../figures/}{#1.pdf_tex}
+}
+
+\begin{document}
+
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\fancyhead[R]{\thedate}
+\fancyhead[C]{\thetitle}
+\fancyhead[L]{01SKE \theauthor}
+\fancyfoot{} % clear all footer fields
+\fancyfoot[C]{\thepage}

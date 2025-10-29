@@ -1,0 +1,181 @@
+\documentclass[a4paper, english]{article}
+
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{awesomebox}
+% \usepackage{alertmessage}
+
+\usepackage{amssymb, amsthm, mathtools, amsmath}
+\newtheorem{note}{Note}
+\newtheorem*{note*}{Note}
+\parskip = 15pt
+
+\newtheorem{theorem}{Theorem}[section]
+
+\title{Censored Data}
+\author{
+    \href{mailto:kunzmart@fjfi.cvut.cz}{Martin Kunz}
+}
+
+% figure support
+\usepackage{import}
+\usepackage{xifthen}
+\usepackage{pdfpages}
+\usepackage{transparent}
+\usepackage{graphicx}
+% \usepackage{subfig}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+
+\graphicspath{ {../figures/} }
+\newcommand{\incfig}[2][\textwidth]{%
+  \def\svgwidth{#1}
+  \import{../figures/}{#2.pdf_tex}
+}
+
+% \newcommand{\incfigwide}[1]{%
+%   \def\svgwidth{0.8\paperwidth}
+%   \import{../figures/}{#1.pdf_tex}
+% }
+
+% includehead, nomarginpar, 
+\usepackage[margin=1.5cm, headheight=10mm]{geometry}
+\usepackage{datetime}
+
+\usepackage{physics}
+
+\usepackage{fancyhdr}
+\usepackage{indentfirst}
+\usepackage{multicol}
+\usepackage{float}
+\usepackage{perpage}
+\MakeSorted{figure}
+\MakeSorted{table}
+
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date
+\makeatother
+
+\usepackage[noabbrev,nameinlink]{cleveref}
+\usepackage{crossreftools}
+\pdfstringdefDisableCommands{%
+    \let\Cref\crtCref
+    \let\cref\crtcref
+}
+
+\usepackage{nameref}
+\makeatletter
+\let\orgdescriptionlabel\descriptionlabel
+\renewcommand*{\descriptionlabel}[1]{%
+  \let\orglabel\label
+  \let\label\@gobble
+  \phantomsection
+  \edef\@currentlabel{#1}%
+  %\edef\@currentlabelname{#1}%
+  \let\label\orglabel
+  \orgdescriptionlabel{#1}%
+}
+\makeatother
+
+\usepackage{acro}
+
+\DeclareAcronym{id}{
+  short=i.d.,
+  long=independently distributed,
+}
+
+\DeclareAcronym{iid}{
+  short=i.i.d.,
+  long=identically independently distributed,
+}
+
+\DeclareAcronym{SD}{
+  short=SD,
+  long=standard deviation,
+}
+
+\DeclareAcronym{RV}{
+  short=RV,
+  long=random variable,
+}
+
+\DeclareAcronym{MLE}{
+  short=MLE,
+  long=maximum likelihood estimate,
+}
+
+\DeclareAcronym{KM}{
+  short=KM,
+  long=Kaplan-Meier,
+}
+
+\DeclareAcronym{NA}{
+  short=NA,
+  long=Nelson-Aalen,
+}
+
+\DeclareAcronym{RC}{
+  short=RC,
+  long=random censoring,
+}
+
+\DeclareAcronym{DFR}{
+  short=DFR,
+  long=decreasing failure rate,
+}
+
+\DeclareAcronym{MTTF}{
+  short=MTTF,
+  long=mean time to failure,
+}
+
+\DeclareAcronym{LEs}{
+  short=LEs,
+  long=likelihood equations,
+}
+
+\DeclareAcronym{CDF}{
+  short=CDF,
+  long=cumulative distribution function,
+}
+
+\usepackage[
+backend=biber,
+style=alphabetic,
+url=false,
+isbn=false,
+sorting=ynt
+]{biblatex}
+% \addbibresource{index.bib}
+
+\usepackage{enumitem}
+
+\DeclareMathOperator{\std}{std}
+\DeclareMathOperator{\Cov}{Cov}
+
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\bs}[1]{\ensuremath{\boldsymbol{#1}}}
+\newcommand{\Romannumeral}[1]{%
+  \textup{\uppercase\expandafter{\romannumeral#1}}%
+}
+
+\usepackage{fancyvrb}
+
+\newenvironment{codesample}
+{\VerbatimEnvironment\begin{center}\begin{BVerbatim}[fontsize=\scriptsize]}
+{\end{BVerbatim}\end{center}}
+
+\begin{document}
+
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\fancyhead[R]{\thedate}
+\fancyhead[C]{\thetitle}
+\fancyhead[L]{01SKE \theauthor}
+\fancyfoot{} % clear all footer fields
+\fancyfoot[C]{\thepage}

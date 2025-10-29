@@ -1,0 +1,157 @@
+\begin{figure}[H]
+    \centering
+    \incfig{diagram0}
+    \caption{Fire alarm system. Dashed components are backups.}
+    \label{fig:diagram0}
+\end{figure}
+
+\hrule
+\medskip
+
+First of all, we need to determine the structure function of the system. We will separate the components of the system
+hierarchically into subsystems that are either wired in parallel or in series.
+
+% TODO: Make the descriptions aligned at the right side of the definitions  <10-05-23> 
+% TODO: Make the description terms written in bold <10-05-23> 
+First of all let us recognize the outer most subsystems that are wired in series:
+\begin{description}[labelwidth=3cm, align=right]
+    \item[\(\left\{ x_{s_1}, x_{\tilde{s_1}}, x_{s_2} \right\}\)] Smoke detectors (a.k.a. sensors) at the left side of
+        diagram \ref{fig:diagram0}.
+
+    \item[\(\left\{ x_\text{r} \right\}\)] Relay between the detectors and the fire alarms in the middle of
+        diagram \ref{fig:diagram0}.
+
+    \item[\(\left\{ x_{a_1}, x_{a_2}, x_{a_3} \right\}\)] Alarms at the entry (\(x_{a_1}\)) and the exit (\(x_{a_2}\)
+        and \(x_{a_3}\)).
+
+    \item[\(\left\{ x_\sim \right\}\)] Source of the system.
+\end{description}
+
+Starting with the sensors \(\left\{ x_{s_1}, x_{\tilde{s_1}}, x_{s_2} \right\}\), we can write the structure function of
+the subsystem as a combination of two parallel structure functions. The outer parallel structure has branches \(\left\{ x_{s_2}
+\right\}\) and \(\left\{ x_{s_1}, x_{\tilde{s_1}} \right\}\) where the latter is a parallel subsystem on its own with
+branches \(\left\{ x_{s_1} \right\}\) and \(\left\{ x_{\tilde{s_1}} \right\}\) leading to an inner structure of
+\[
+    \phi\left\{ x_{s_1}, x_{\tilde{s_1}} \right\} = 1 - (1 - x_{s_1})\cdot(1- x_{\tilde{s_1}}) = \coprod_{x \in
+    \{ x_{s_1}, x_{\tilde{s_1}} \}} x
+\] and the outer structure function \[
+\begin{split}
+    \phi_s \coloneqq \phi\left\{ x_{s_1}, x_{\tilde{s_1}}, x_{s_2} \right\} &= 1 - (1 - x_{s_2}) \cdot (1 - \phi\left\{ x_{s_1},
+    x_{\tilde{s_1}} \right\}) \\ 
+                                                           &= 1 - (1 - x_{s_2}) \cdot (1 - (1 - (1 - x_{s_1})\cdot(1- x_{\tilde{s_1}}))) \\
+                                                           &= (x_{s_2} - 1) \cdot (x_{s_1}\cdot x_{\tilde{s_1}} - x_{s_1} - x_{\tilde{s_1}}) + x_{s_2}.
+\end{split}
+\]
+
+The next subsystem comprising of more than one component is the subsystem of alarms \(\left\{ x_{a_1}, x_{a_2}, x_{a_3}
+\right\}\). The outer structure of this subsystem is parallel with branches \(\left\{ x_{a_1} \right\}\) and \(\left\{
+x_{a_2}, x_{a_3}\right\}\). The latter (and inner) subsystem is wired in series implying the inner structure function
+\[
+    \phi{\left\{ x_{a_2}, x_{a_3}\right\}} = x_{a_2}\cdot x_{a_3}
+\] and when combined with the outer structure, we get \[
+\begin{split}
+    \phi_a \coloneqq \phi {\left\{ x_{a_1}, x_{a_2}, x_{a_3} \right\}} &=  1 - (1 - x_{a_1}) \cdot (1 - \phi{\left\{ x_{a_2}, x_{a_3} \right\}}) \\
+    &= 1 - (1 - x_{a_1}) \cdot (1 - x_{a_2} \cdot x_{a_3}) \\
+    &= (1 - x_{a_1}) \cdot x_{a_2}\cdot x_{a_3} + x_{a_1}.
+\end{split}
+\]
+
+All of the subsystems that we recognized at the beginning are wired in series so the structure function of the whole
+system is
+\[
+    \phi(\mathbf{x}) = \phi_s \cdot x_\text{r} \cdot \phi_a \cdot x_{\sim} = \left\{ (x_{s_2} - 1) \cdot (x_{s_1}\cdot
+    x_{\tilde{s_1}} - x_{s_1} - x_{\tilde{s_1}}) + x_{s_2} \right\} \cdot x_\text{r} \cdot \left\{ (1 - x_{a_1}) \cdot
+x_{a_2}\cdot x_{a_3} + x_{a_1} \right\} \cdot x_{\sim}.
+\] 
+
+\begin{note*}[interpretation]
+  It is important to associate the right interpretation to the calculation of reliability of the system, that we will perform
+  in the next step. This depends on how we interpreted the structure function of the system based on the diagram in the
+  task. 
+
+  \begin{itemize}
+    \item Since we have the sensors in the system parallel, we define the system as working if at least one of the sensor locations is
+        working. That is if at least one of \(x_{s_1}\) and \(x_{\tilde{s_1}}\) or if \(x_{s_2}\) is working. That means that we
+        assume that the sensors at any location are able to detect the smoke regardless of where the fire is.
+
+    \item Similarly, we define the system as working if at least one of the alarms is working. That is, if we assume that the
+        relay is switched to the alarm circuit, the alarm is ringing either at the entry or at the exit or both. 
+  \end{itemize}
+\end{note*}
+
+\pagebreak
+
+\begin{enumerate}[label = \alph*)]
+    \item Determine the reliability of the system \(R(t)\) with \ac{id}~components with reliabilities \(R_i(t)\)
+
+\begin{figure}[H]
+    \centering
+    \incfig{diagram1}
+    \label{fig:diagram1}
+    \caption{Fire alarm system. Dashed components are backups.}
+\end{figure}
+
+Where \(R_{s_1}(t) = R_{\tilde{s_1}}(t) = R_{s_2}(t) = 0.9\), \(R_{a_1}(t) = R_{a_2}(t) = R_{a_3}(t) = 0.7\), \(R_{r}(t)
+= 0.8\) and \(R_\sim(t) = 0.8\).
+
+\end{enumerate}
+
+% \begin{figure}[H]
+%     \centering
+%     \resizebox{\columnwidth}{!}{
+%         \input{../figures/diagram1.tikz}
+%     }
+%     \caption{Fire alarm system. Dashed components are backups.}
+% \end{figure}
+
+\hrule
+\medskip
+
+Since we have already determined the structural function of the system \(\phi(\mathbf{x})\), and we have
+\ac{id}~components, this will be very easy.
+\[
+    \begin{split}
+        R(t) &= \mathbb{E}\left[\phi(\mathbf{X}(t)) \right] = \mathbb{E}\left[\left\{ (X_{s_2} - 1) \cdot (X_{s_1}\cdot
+    X_{\tilde{s_1}} - X_{s_1} - X_{\tilde{s_1}}) + X_{s_2} \right\} \cdot X_\text{r} \cdot \left\{ (1 - X_{a_1}) \cdot
+X_{a_2}\cdot X_{a_3} + X_{a_1} \right\} \cdot X_{\sim}  \right] \\
+             &\overset{\text{\ac{id}}}{=} \left\{ (R_{s_2}(t) - 1) \cdot (R_{s_1}(t)\cdot
+    R_{\tilde{s_1}}(t) - R_{s_1}(t) - R_{\tilde{s_1}})(t) + R_{s_2}(t) \right\} \cdot R_\text{r}(t) \cdot \left\{ (1
+    - R_{a_1}(t)) \cdot
+R_{a_2}(t)\cdot R_{a_3}(t) + R_{a_1}(t) \right\} \cdot R_{\sim}(t).
+    \end{split}
+\] 
+
+The last step we need to finish is to substitute the values from the task. And since the reliabilities are constant in
+time we have a constant reliability
+
+\begin{equation*}
+      R(t) = R = 0.54153792.
+\end{equation*}
+    
+\pagebreak
+
+\begin{enumerate}[label = \alph*), resume]
+    \item Find the \ac{MTTF} of the system of \ac{iid}~components with constant failure rates \(r_i(t) = \lambda \)
+
+\begin{figure}[H]
+    \centering
+    \incfig{diagram2}
+    \label{fig:diagram2}
+    \caption{Fire alarm system. Dashed components are backups.}
+\end{figure}
+
+Where \(r_{s_1}(t) = r_{\tilde{s_1}}(t) = r_{s_2}(t) = r_{a_1}(t) = r_{a_2}(t) = r_{a_3}(t) = r_{r}(t)
+= r_\sim(t) = \lambda\).
+
+\end{enumerate}
+
+\hrule
+\medskip
+
+% \begin{figure}[H]
+%     \centering
+%     \resizebox{\columnwidth}{!}{
+%         \input{../figures/diagram2.tikz}
+%     }
+%     \caption{Fire alarm system. Dashed components are backups.}
+% \end{figure}

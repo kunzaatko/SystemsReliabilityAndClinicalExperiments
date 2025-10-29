@@ -1,0 +1,224 @@
+
+\definecolor{c008000}{RGB}{0,128,0}
+\definecolor{cff0000}{RGB}{255,0,0}
+\definecolor{c37abc8}{RGB}{55,171,200}
+\definecolor{cd35fbc}{RGB}{211,95,188}
+\definecolor{cffd42a}{RGB}{255,212,42}
+
+
+\def \globalscale {1.000000}
+\begin{tikzpicture}[y=1cm, x=1cm, yscale=\globalscale,xscale=\globalscale, inner sep=0pt, outer sep=0pt]
+\begin{scope}[shift={(0,17.700000000000003)}]
+  \path[draw=black,-latex,even odd rule,line cap=round,line join=round,line
+    width=0.007cm] (8.9303,-8.8752) -- (14.4163,-8.8651);
+
+
+
+  \path[draw=black,even odd rule,line cap=round,line join=round,line
+    width=0.007cm] (10.2300,-8.8885) -- (10.2300,-10.9166);
+
+
+
+  \path[draw=black,-latex,even odd rule,line cap=round,line join=round,line
+    width=0.007cm] (7.8022,-14.6719) -- (12.1938,-14.6763);
+
+
+
+  \path[draw=black,even odd rule,line cap=round,line join=round,line
+    width=0.007cm] (10.2300,-14.6719) -- (10.2300,-12.1370);
+
+
+
+  \path[draw=black,dash pattern=on 0.159cm off 0.159cm,even odd rule,line
+    cap=round,line join=round,line width=0.007cm] (10.8595,-11.5268) --
+    (18.7574,-11.5268);
+
+
+
+  \path[draw=black,-latex,even odd rule,line cap=round,line join=round,line
+    width=0.007cm] (16.3697,-8.8651) -- (19.4384,-8.8651)(19.4384,-8.8651) --
+    (19.4384,-10.9625);
+
+
+
+  \path[draw=black,-latex,even odd rule,line cap=round,line join=round,line
+    width=0.007cm] (14.1723,-14.6719) -- (15.5157,-14.6851);
+
+
+
+  \path[draw=black,-latex,even odd rule,line cap=round,line join=round,line
+    width=0.007cm] (19.4410,-14.6646) -- (19.4384,-12.0560);
+
+
+
+  \path[draw=black,-latex,even odd rule,line cap=round,line join=round,line
+    width=0.007cm] (20.1195,-11.5268) -- (20.8908,-11.5268);
+
+
+
+  \path[draw=c008000,fill=c008000,fill opacity=0.200,line cap=round,line
+    join=round,line width=0.054cm] (21.0742,-11.2812) -- (22.5064,-11.2812) --
+    (22.8032,-11.5334) -- (22.5064,-11.7725) -- (21.0742,-11.7725) -- cycle;
+
+
+
+  \path[draw=black,even odd rule,line cap=round,line join=round,line
+    width=0.007cm] (17.5163,-14.6719) -- (19.4410,-14.6646);
+
+
+
+  \path[draw=black,even odd rule,line cap=round,line join=round,line
+    width=0.007cm] (8.9285,-7.6860) -- (8.9321,-9.9343);
+
+
+
+  \path[draw=black,even odd rule,line cap=round,line join=round,line
+    width=0.007cm] (7.6301,-7.6828) -- (8.9285,-7.6860);
+
+
+
+  \path[draw=black,even odd rule,line cap=round,line join=round,line
+    width=0.007cm] (7.6301,-9.9311) -- (8.9321,-9.9343);
+
+
+
+  \path[draw=black,even odd rule,line cap=round,line join=round,line
+    width=0.007cm] (4.9227,-7.6860) -- (6.2186,-7.6912);
+
+
+
+  \path[draw=black,even odd rule,line cap=round,line join=round,line
+    width=0.007cm] (4.9173,-9.9343) -- (6.2241,-9.9335);
+
+
+
+  \path[draw=black,even odd rule,line cap=round,line join=round,line
+    width=0.007cm] (4.9227,-7.6860) -- (4.9173,-9.9343);
+
+
+
+  \path[draw=black,even odd rule,line cap=round,line join=round,line
+    width=0.007cm] (3.4542,-11.5334) -- (3.4525,-8.8016);
+
+
+
+  \path[draw=black,-latex,even odd rule,line cap=round,line join=round,line
+    width=0.007cm] (3.4525,-8.8016) -- (4.7570,-8.8102);
+
+
+
+  \path[draw=black,even odd rule,line cap=round,line join=round,line
+    width=0.007cm] (3.4542,-11.5334) -- (3.4574,-14.6719);
+
+
+
+  \path[draw=black,-latex,even odd rule,line cap=round,line join=round,line
+    width=0.007cm] (3.4574,-14.6719) -- (6.2062,-14.6719);
+
+
+
+  \path[draw=cff0000,fill=cff0000,dash pattern=on 0.216cm off 0.432cm,fill
+    opacity=0.100,line cap=round,line join=round,line width=0.054cm] (6.9271,
+    -9.9311) circle (0.7030cm);
+
+
+
+  \path[draw=c37abc8,fill=c37abc8,fill opacity=0.200,line cap=round,line
+    join=round,line width=0.054cm,rounded corners=0.0000cm] (9.6005211,
+    -10.916614000000003) rectangle (10.8595039, -12.137025400000002);
+
+
+
+  \path[draw=cd35fbc,fill=cd35fbc,fill opacity=0.200,line cap=round,line
+    join=round,line width=0.054cm] (15.4809, -8.8651) ellipse (0.8888cm and
+    0.5268cm);
+
+
+
+  \path[draw=cffd42a,fill=cffd42a,fill opacity=0.200,line cap=round,line
+    join=round,line width=0.054cm,rounded corners=0.0000cm] (18.757355,
+    -11.153033) rectangle (20.1194643, -11.86532915);
+
+
+
+  \path[draw=cff0000,fill=cff0000,fill opacity=0.200,line cap=round,line
+    join=round,line width=0.054cm] (6.9271, -7.6828) circle (0.7030cm);
+
+
+
+  \path[draw=cd35fbc,fill=cd35fbc,fill opacity=0.200,line cap=round,line
+    join=round,line width=0.054cm] (13.2755, -14.6618) ellipse (0.8888cm and
+    0.5268cm);
+
+
+
+  \path[draw=cd35fbc,fill=cd35fbc,fill opacity=0.200,line cap=round,line
+    join=round,line width=0.054cm] (16.6004, -14.6618) ellipse (0.8888cm and
+    0.5268cm);
+
+
+
+  \path[draw=cff0000,fill=cff0000,fill opacity=0.200,line cap=round,line
+    join=round,line width=0.054cm] (7.0992, -14.6719) circle (0.7030cm);
+
+
+
+  \path[fill=black,line width=0.026cm] (14.8742,-8.9578) node[above right]
+    (text1681){$R_{a_1}(t)$};
+
+
+
+  \path[fill=black,line width=0.026cm] (6.3506,-10.0037) node[above right]
+    (text1153){$R_{\tilde{s_1}}(t)$};
+
+
+
+  \path[fill=black,line width=0.026cm] (9.7427,-11.6164) node[above right]
+    (text1669){$R_\text{r}(t)$};
+
+
+
+  \path[fill=black,line width=0.026cm] (18.8688,-11.5976) node[above right]
+    (text371){$R_\sim(t)$};
+
+
+
+  \path[fill=black,line width=0.026cm] (6.3506,-7.7553) node[above right]
+    (text1249){$R_{s_1}(t)$};
+
+
+
+  \path[fill=black,line width=0.026cm] (12.6688,-14.7544) node[above right]
+    (text1610){$R_{a_2}(t)$};
+
+
+
+  \path[fill=black,line width=0.026cm] (15.9937,-14.7544) node[above right]
+    (text1668){$R_{a_3}(t)$};
+
+
+
+  \path[fill=black,line width=0.026cm] (6.5227,-14.7444) node[above right]
+    (text1722){$R_{s_2}(t)$};
+
+
+
+  \path[draw=black,even odd rule,line cap=butt,line join=miter,line width=0.007cm]
+    (2.9392,-11.5533) -- (3.4543,-11.5531);
+
+
+
+  \path[draw=black,even odd rule,line cap=butt,line join=miter,line width=0.007cm]
+    (3.4410,-11.6115) -- (3.4410,-11.6115);
+
+
+
+  \path[draw=c008000,fill=c008000,fill opacity=0.200,line cap=round,line
+    join=round,line width=0.054cm] (1.2102,-11.3010) -- (2.6423,-11.3010) --
+    (2.9392,-11.5533) -- (2.6423,-11.7923) -- (1.2102,-11.7923) -- cycle;
+
+
+
+\end{scope}
+
+\end{tikzpicture}
