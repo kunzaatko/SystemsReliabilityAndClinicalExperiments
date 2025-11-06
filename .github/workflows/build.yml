@@ -1,0 +1,45 @@
+---
+name: 'Build LaTeX Document with Biber'
+on:
+  push:
+    branches:
+      - trunk
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - uses: actions/cache@v4
+        name: Tectonic Cache
+        with:
+          path: ~/.cache/Tectonic
+          key: ${{ runner.os }}-tectonic-${{ hashFiles('**/*.tex') }}
+          restore-keys: |
+           ${{ runner.os }}-tectonic-
+      - uses: wtfjoke/setup-tectonic@v3
+        name: Setup Tectonic
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          biber-version: '2.17'
+
+      - name: Build document assignment 01
+        working-directory: assignment/01/report/
+        run: |
+          tectonic -X build
+
+      - name: Build document assignment 02
+        working-directory: assignment/02/report/
+        run: |
+          tectonic -X build
+
+      - name: Upload pdf
+        uses: actions/upload-artifact@v4
+        with:
+          name: SKE_reports
+          path: |
+            assignment/01/report/build/01_SKE_diagram/01_SKE_diagram.pdf
+            assignment/02/report/build/01_SKE_censored_data/01_SKE_censored_data.pdf

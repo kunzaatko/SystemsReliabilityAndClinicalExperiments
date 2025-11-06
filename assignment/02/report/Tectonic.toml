@@ -3,5 +3,5 @@ name = "report"
 bundle = "https://data1.fullyjustified.net/tlextras-2022.0r0.tar"
 
 [[output]]
-name = "01SKE_Censored_Data"
+name = "01_SKE_censored_data"
 type = "pdf"
