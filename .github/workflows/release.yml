@@ -47,13 +47,6 @@ jobs:
           RPL="rights=${DQT}read|write${DQT} pattern=${DQT}PDF${DQT}"
           sudo sed -i "s/$SRC/$RPL/" /etc/ImageMagick-6/policy.xml
 
-      - name: Create PNGs from figures 01
-        working-directory: assignment/01/report/figures/
-        run: | 
-          for i in *.pdf; do
-            convert "$i" $(basename "$i" .pdf).png
-          done
-
       - name: Create PNGs from figures 02
         working-directory: assignment/02/report/figures/
         run: | 
@@ -67,6 +60,5 @@ jobs:
           prerelease: false
           files: |
             assignment/01/report/build/01_SKE_diagram/01_SKE_diagram.pdf
-            assignment/01/report/figures/*.png
             assignment/02/report/build/01_SKE_censored_data/01_SKE_censored_data.pdf
             assignment/02/report/figures/*.png
